@@ -3,10 +3,10 @@ import httpStatus from 'http-status';
 import userService from '@/services/users-service';
 
 export async function usersPost(req: Request, res: Response) {
-  const { email, password } = req.body;
+  const { name, email, password, is_teacher } = req.body;
 
   try {
-    const user = await userService.createUser({ email, password });
+    const user = await userService.createUser({ name, email, password, is_teacher });
     return res.status(httpStatus.CREATED).json({
       id: user.id,
       email: user.email,
