@@ -3,8 +3,21 @@ import { createUserSchema } from '@/schemas';
 
 describe('createUserSchema', () => {
   const generateValidInput = () => ({
+    name: faker.name.firstName(),
     email: faker.internet.email(),
     password: faker.internet.password(6),
+    is_teacher: faker.datatype.boolean(),
+  });
+
+  describe('when email is not valid', () => {
+    it('should return error if name is not present', () => {
+      const input = generateValidInput();
+      delete input.name;
+
+      const { error } = createUserSchema.validate(input);
+
+      expect(error).toBeDefined();
+    });
   });
 
   describe('when email is not valid', () => {
