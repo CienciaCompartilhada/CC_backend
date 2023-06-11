@@ -1,7 +1,7 @@
-import { AuthenticatedRequest } from '@/middlewares';
-import projectService from '@/services/projects-service';
 import { Response } from 'express';
 import httpStatus from 'http-status';
+import { AuthenticatedRequest } from '@/middlewares';
+import projectService from '@/services/projects-service';
 
 export async function getProjects(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
