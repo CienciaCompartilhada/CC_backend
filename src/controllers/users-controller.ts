@@ -31,7 +31,7 @@ export async function getAllTeachers(req: AuthenticatedRequest, res: Response) {
 
 export async function getAllStudents(req: AuthenticatedRequest, res: Response) {
   try {
-    const result = await userService.getAllTeachers();
+    const result = await userService.getAllStudents();
     return res.status(httpStatus.OK).send(result);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({});
