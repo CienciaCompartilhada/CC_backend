@@ -23,6 +23,22 @@ async function findById(userId: number) {
   });
 }
 
+async function getAllTeachers() {
+  return prisma.users.findMany({
+    where: {
+      is_teacher: true,
+    },
+  });
+}
+
+async function getAllStudents() {
+  return prisma.users.findMany({
+    where: {
+      is_teacher: false,
+    },
+  });
+}
+
 async function create(data: Prisma.usersUncheckedCreateInput) {
   return prisma.users.create({
     data,
@@ -32,6 +48,8 @@ async function create(data: Prisma.usersUncheckedCreateInput) {
 const userRepository = {
   findByEmail,
   findById,
+  getAllTeachers,
+  getAllStudents,
   create,
 };
 
