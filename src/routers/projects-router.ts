@@ -5,7 +5,6 @@ import { authenticateToken } from '@/middlewares';
 
 const projectsRouter = Router();
 
-
 projectsRouter.all('/*', authenticateToken).get('/', getProjects);
 
 export { projectsRouter };

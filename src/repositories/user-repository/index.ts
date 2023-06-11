@@ -15,6 +15,14 @@ async function findByEmail(email: string, select?: Prisma.usersSelect) {
   return prisma.users.findUnique(params);
 }
 
+async function findById(userId: number) {
+  return prisma.users.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+}
+
 async function create(data: Prisma.usersUncheckedCreateInput) {
   return prisma.users.create({
     data,
@@ -23,6 +31,7 @@ async function create(data: Prisma.usersUncheckedCreateInput) {
 
 const userRepository = {
   findByEmail,
+  findById,
   create,
 };
 
