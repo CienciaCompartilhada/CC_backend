@@ -13,7 +13,7 @@ export async function authenticateToken(req: AuthenticatedRequest, res: Response
   if (!token) return generateUnauthorizedResponse(res);
 
   try {
-    const { userId } = jwt.verify(token, process.env.JWT_SECRET) as JWTPayload;
+    const { user_id } = jwt.verify(token, process.env.JWT_SECRET) as JWTPayload;
 
     const session = await prisma.session.findFirst({
       where: {
@@ -21,8 +21,7 @@ export async function authenticateToken(req: AuthenticatedRequest, res: Response
       },
     });
     if (!session) return generateUnauthorizedResponse(res);
-
-    req.userId = userId;
+    req.user_id = user_id;
 
     return next();
   } catch (err) {
@@ -37,5 +36,5 @@ function generateUnauthorizedResponse(res: Response) {
 export type AuthenticatedRequest = Request & JWTPayload;
 
 type JWTPayload = {
-  userId: number;
+  user_id: number;
 };

@@ -15,23 +15,12 @@ export async function createUser({ name, email, password, is_teacher }: CreateUs
   });
 }
 
-export async function getAllTeachers() {
-  const teachers = await userRepository.getAllTeachers();
+export async function getUsersUsingMatch(userId: number, is_teacher: boolean) {
+  const users = await userRepository.findUsersUsingMatch(userId, is_teacher);
   const result = [];
-  for (let i = 0; i < teachers.length; i++) {
+  for (let i = 0; i < users.length; i++) {
     result.push({
-      name: teachers[i].name,
-    });
-  }
-  return result;
-}
-
-export async function getAllStudents() {
-  const students = await userRepository.getAllStudents();
-  const result = [];
-  for (let i = 0; i < students.length; i++) {
-    result.push({
-      name: students[i].name,
+      name: users[i].name,
     });
   }
   return result;
@@ -48,8 +37,7 @@ export type CreateUserParams = Pick<users, 'name' | 'email' | 'password' | 'is_t
 
 const userService = {
   createUser,
-  getAllStudents,
-  getAllTeachers,
+  getUsersUsingMatch,
 };
 
 export * from './errors';

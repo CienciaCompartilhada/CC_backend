@@ -21,8 +21,9 @@ export async function usersPost(req: Request, res: Response) {
 }
 
 export async function getAllTeachers(req: AuthenticatedRequest, res: Response) {
+  const { user_id } = req;
   try {
-    const result = await userService.getAllTeachers();
+    const result = await userService.getUsersUsingMatch(user_id, true);
     return res.status(httpStatus.OK).send(result);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({});
@@ -30,8 +31,9 @@ export async function getAllTeachers(req: AuthenticatedRequest, res: Response) {
 }
 
 export async function getAllStudents(req: AuthenticatedRequest, res: Response) {
+  const { user_id } = req;
   try {
-    const result = await userService.getAllStudents();
+    const result = await userService.getUsersUsingMatch(user_id, false);
     return res.status(httpStatus.OK).send(result);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({});

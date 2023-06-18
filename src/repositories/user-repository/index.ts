@@ -23,20 +23,27 @@ async function findById(userId: number) {
   });
 }
 
-async function getAllTeachers() {
-  return prisma.users.findMany({
-    where: {
-      is_teacher: true,
-    },
-  });
-}
-
-async function getAllStudents() {
-  return prisma.users.findMany({
-    where: {
-      is_teacher: false,
-    },
-  });
+async function findUsersUsingMatch(
+  userId: number,
+  is_teacher: boolean,
+): Promise<[{ id: number; name: string; common_expertises: number }]> {
+  return prisma.$queryRaw`
+    SELECT
+      u.id,
+      u.name,
+      COUNT(ui2.expertise_id) AS common_expertises
+    FROM
+        users u
+        LEFT JOIN user_expertise ui1 ON u.id = ui1.user_id
+        LEFT JOIN user_expertise ui2 ON ui1.expertise_id = ui2.expertise_id
+                                      AND ui2.user_id = ${userId}
+    WHERE
+        u.id <> ${userId} AND u.is_teacher = ${is_teacher}
+    GROUP BY
+        u.id, u.name
+    ORDER BY
+        common_expertises DESC;
+  `;
 }
 
 async function create(data: Prisma.usersUncheckedCreateInput) {
@@ -48,8 +55,7 @@ async function create(data: Prisma.usersUncheckedCreateInput) {
 const userRepository = {
   findByEmail,
   findById,
-  getAllTeachers,
-  getAllStudents,
+  findUsersUsingMatch,
   create,
 };
 
