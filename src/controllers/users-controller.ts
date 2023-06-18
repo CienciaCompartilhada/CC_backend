@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import userService from '@/services/users-service';
 import { AuthenticatedRequest } from '@/middlewares';
@@ -37,5 +37,15 @@ export async function getAllStudents(req: AuthenticatedRequest, res: Response) {
     return res.status(httpStatus.OK).send(result);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({});
+  }
+}
+
+export async function setUserUniversity(req: Request, res: Response, next: NextFunction) {
+  const { universityId, user_id } = req.body;
+  try {
+    const result = await userService.setUserUniversity(user_id, universityId);
+    return res.status(httpStatus.OK).send(result);
+  } catch (error) {
+    next(error);
   }
 }

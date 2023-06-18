@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { AuthenticatedRequest } from '@/middlewares';
 import universityRepository from '@/repositories/university-repository';
 
 export async function getUniversities(req: Request, res: Response) {

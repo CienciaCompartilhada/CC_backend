@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma, user_university } from '@prisma/client';
 import { prisma } from '@/config';
 
 async function findByEmail(email: string, select?: Prisma.usersSelect) {
@@ -46,6 +46,23 @@ async function findUsersUsingMatch(
   `;
 }
 
+async function setUserUniversity(userId: number, universityId: number) {
+  return prisma.user_university.create({
+    data: {
+      university_id: universityId,
+      user_id: userId,
+    },
+  });
+}
+
+async function findUserUniversity(userId: number): Promise<user_university[]> {
+  return prisma.user_university.findMany({
+    where: {
+      user_id: userId,
+    },
+  });
+}
+
 async function create(data: Prisma.usersUncheckedCreateInput) {
   return prisma.users.create({
     data,
@@ -56,6 +73,8 @@ const userRepository = {
   findByEmail,
   findById,
   findUsersUsingMatch,
+  findUserUniversity,
+  setUserUniversity,
   create,
 };
 

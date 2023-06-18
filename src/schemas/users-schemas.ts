@@ -7,3 +7,8 @@ export const createUserSchema = Joi.object<CreateUserParams>({
   password: Joi.string().min(6).required(),
   is_teacher: Joi.boolean().required(),
 });
+
+export const setUserUniversitySchema = Joi.object({
+  universityId: Joi.number().required(),
+  user_id: Joi.number().required(),
+});

@@ -1,13 +1,14 @@
 import { Router } from 'express';
 
-import { createUserSchema } from '@/schemas';
+import { createUserSchema, setUserUniversitySchema } from '@/schemas';
 import { authenticateToken, validateBody } from '@/middlewares';
-import { getAllStudents, getAllTeachers, usersPost } from '@/controllers';
+import { getAllStudents, getAllTeachers, setUserUniversity, usersPost } from '@/controllers';
 
 const usersRouter = Router();
 
 usersRouter
   .post('/', validateBody(createUserSchema), usersPost)
+  .post('/university', validateBody(setUserUniversitySchema), setUserUniversity)
   .all('/*', authenticateToken)
   .get('/teachers', getAllTeachers)
   .get('/students', getAllStudents);
