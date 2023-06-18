@@ -1,4 +1,4 @@
-import { Prisma, user_university } from '@prisma/client';
+import { Prisma, user_expertise, user_university } from '@prisma/client';
 import { prisma } from '@/config';
 
 async function findByEmail(email: string, select?: Prisma.usersSelect) {
@@ -63,6 +63,14 @@ async function findUserUniversity(userId: number): Promise<user_university[]> {
   });
 }
 
+async function findUserExpertises(userId: number): Promise<user_expertise[]> {
+  return prisma.user_expertise.findMany({
+    where: {
+      user_id: userId,
+    },
+  });
+}
+
 async function create(data: Prisma.usersUncheckedCreateInput) {
   return prisma.users.create({
     data,
@@ -74,6 +82,7 @@ const userRepository = {
   findById,
   findUsersUsingMatch,
   findUserUniversity,
+  findUserExpertises,
   setUserUniversity,
   create,
 };
