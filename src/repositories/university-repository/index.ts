@@ -8,8 +8,13 @@ async function findUniversityById(uniId: number) {
   });
 }
 
+async function findAllUniversities() {
+  return prisma.university.findMany({});
+}
+
 const universityRepository = {
   findUniversityById,
+  findAllUniversities,
 };
 
 export default universityRepository;
