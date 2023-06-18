@@ -55,6 +55,15 @@ async function setUserUniversity(userId: number, universityId: number) {
   });
 }
 
+async function setUserExpertise(userId: number, expertiseId: number) {
+  return prisma.user_expertise.create({
+    data: {
+      expertise_id: expertiseId,
+      user_id: userId,
+    },
+  });
+}
+
 async function findUserUniversity(userId: number): Promise<user_university[]> {
   return prisma.user_university.findMany({
     where: {
@@ -84,6 +93,7 @@ const userRepository = {
   findUserUniversity,
   findUserExpertises,
   setUserUniversity,
+  setUserExpertise,
   create,
 };
 

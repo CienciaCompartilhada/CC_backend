@@ -9,6 +9,7 @@ loadEnv();
 
 import { handleApplicationErrors } from '@/middlewares';
 import { usersRouter, authenticationRouter, projectsRouter, universitiesRouter } from '@/routers';
+import { expertisesRouter } from './routers/expertise-router';
 
 const app = express();
 app
@@ -19,6 +20,7 @@ app
   .use('/auth', authenticationRouter)
   .use('/projects', projectsRouter)
   .use('/universities', universitiesRouter)
+  .use('/expertises', expertisesRouter)
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
