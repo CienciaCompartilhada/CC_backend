@@ -5,6 +5,6 @@ import { authenticateToken } from '@/middlewares';
 
 const universitiesRouter = Router();
 
-universitiesRouter.all('/*', authenticateToken).get('/', getUniversities);
+universitiesRouter.get('/', getUniversities);
 
 export { universitiesRouter };

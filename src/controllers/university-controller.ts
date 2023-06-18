@@ -1,9 +1,9 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { AuthenticatedRequest } from '@/middlewares';
 import universityRepository from '@/repositories/university-repository';
 
-export async function getUniversities(req: AuthenticatedRequest, res: Response) {
+export async function getUniversities(req: Request, res: Response) {
   try {
     const result = await universityRepository.findAllUniversities();
     return res.status(httpStatus.OK).send(result);
