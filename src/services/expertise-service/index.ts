@@ -15,8 +15,14 @@ export async function updateExpertise(userId: number, expertises: string[]) {
   return expertises;
 }
 
+export async function getAllExpertises() {
+  const expertises = expertiseRepository.findAllExpertises();
+  return expertises;
+}
+
 const expertiseService = {
   updateExpertise,
+  getAllExpertises,
 };
 
 export default expertiseService;
