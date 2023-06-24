@@ -5,12 +5,16 @@ import httpStatus from 'http-status';
 
 export async function updateExpertise(userId: number, expertises: string[]) {
   for (let i = 0; i < expertises.length; i++) {
-    const expertiseExists = await expertiseRepository.findExpertiseById(parseInt(expertises[i]));
-    if (!expertiseExists) throw inexistentExpertiseError();
+    if (expertises[i] !== '') {
+      const expertiseExists = await expertiseRepository.findExpertiseById(parseInt(expertises[i]));
+      if (!expertiseExists) throw inexistentExpertiseError();
+    }
   }
   await expertiseRepository.removeUserExpertises(userId);
   for (let i = 0; i < expertises.length; i++) {
-    await userRepository.setUserExpertise(userId, parseInt(expertises[i]));
+    if (expertises[i] !== '') {
+      await userRepository.setUserExpertise(userId, parseInt(expertises[i]));
+    }
   }
   return expertises;
 }
