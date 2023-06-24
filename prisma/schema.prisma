@@ -11,6 +11,7 @@ model course {
   id                Int                 @id @default(autoincrement())
   name              Int?                @unique
   expertise_courses expertise_courses[]
+  @@index([id])
 }
 
 model expertise {
@@ -19,6 +20,7 @@ model expertise {
   expertise_courses expertise_courses[]
   projects          projects[]
   user_expertise    user_expertise[]
+  @@index([id])
 }
 
 model expertise_courses {
@@ -27,6 +29,7 @@ model expertise_courses {
   course_id    Int?
   course       course?    @relation(fields: [course_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   expertise    expertise? @relation(fields: [expertise_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  @@index([expertise_id])
 }
 
 model projects {
@@ -42,6 +45,7 @@ model projects {
   expertise     expertise?  @relation(fields: [expertise_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users         users?      @relation(fields: [professor_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   university    university? @relation(fields: [university_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  @@index([id, professor_id,expertise_id]) 
 }
 
 model university {
@@ -49,6 +53,7 @@ model university {
   name            String?           @db.VarChar(80)
   projects        projects[]
   user_university user_university[]
+  @@index([id])
 }
 
 model user_expertise {
@@ -57,6 +62,7 @@ model user_expertise {
   expertise_id Int?
   expertise    expertise? @relation(fields: [expertise_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users        users?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  @@index([user_id])
 }
 
 model users {
@@ -68,6 +74,7 @@ model users {
   projects        projects[]
   user_expertise  user_expertise[]
   user_university user_university?
+  @@index([id])
 }
 
 model session {
@@ -76,6 +83,7 @@ model session {
   token      String?   @db.VarChar(255)
   created_at DateTime? @default(now()) @db.Timestamp(6)
   updated_at DateTime? @default(now()) @db.Timestamp(6)
+  @@index([user_id])
 }
 
 model user_university {
@@ -84,4 +92,5 @@ model user_university {
   user_id       Int?        @unique(map: "unique_user_id")
   university    university? @relation(fields: [university_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users         users?      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  @@index([user_id])
 }
