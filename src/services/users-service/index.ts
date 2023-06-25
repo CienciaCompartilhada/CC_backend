@@ -23,7 +23,6 @@ export async function getUsersUsingMatch(userId: number, is_teacher: boolean) {
   const result = [];
   for (let i = 0; i < users.length; i++) {
     const userUniversity = await userRepository.findUserUniversity(users[i].id);
-    console.log(userUniversity);
     const university = await universityRepository.findUniversityById(userUniversity[0].university_id);
     const userExpertises = await userRepository.findUserExpertises(users[i].id);
     const expertisesList = [];
