@@ -1,14 +1,11 @@
 import { session } from '@prisma/client';
-import { createUser } from './users-factory';
 import { prisma } from '@/config';
 
-export async function createSession(token: string): Promise<session> {
-  const user = await createUser();
-
+export async function createSession(userId: number, token: string): Promise<session> {
   return prisma.session.create({
     data: {
       token: token,
-      user_id: user.id,
+      user_id: userId,
     },
   });
 }

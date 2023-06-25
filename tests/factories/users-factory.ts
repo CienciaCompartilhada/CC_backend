@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import faker from '@faker-js/faker';
-import { users } from '@prisma/client';
+import { expertise, university, users } from '@prisma/client';
 import { prisma } from '@/config';
 
 export async function createUser(params: Partial<users> = {}): Promise<users> {
@@ -37,6 +37,24 @@ export async function createStudent(): Promise<users> {
       email: faker.internet.email(),
       password: password,
       is_teacher: false,
+    },
+  });
+}
+
+export async function connectUserUniversity(user: users, university: university) {
+  await prisma.user_university.create({
+    data: {
+      university_id: university.id,
+      user_id: user.id,
+    },
+  });
+}
+
+export async function connectUserExpertise(user: users, expertise: expertise) {
+  await prisma.user_expertise.create({
+    data: {
+      expertise_id: expertise.id,
+      user_id: user.id,
     },
   });
 }

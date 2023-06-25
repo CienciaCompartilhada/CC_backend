@@ -17,10 +17,10 @@ export async function cleanDb() {
 }
 
 export async function generateValidToken(user?: users) {
-  const incomingUser = user || (await createUser());
-  const token = jwt.sign({ userId: incomingUser.id }, process.env.JWT_SECRET);
+  const incomingUser = user || (user = await createUser());
+  const token = jwt.sign({ user_id: incomingUser.id }, process.env.JWT_SECRET);
 
-  await createSession(token);
+  await createSession(user.id, token);
 
   return token;
 }
