@@ -12,7 +12,6 @@ export async function createProject(teacher: users, university: university, expe
 
   return prisma.projects.create({
     data: {
-      id: faker.datatype.number(),
       professor_id: teacher.id,
       university_id: university.id,
       expertise_id: expertise.id,
