@@ -2,7 +2,7 @@ import { users } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { duplicatedEmailError } from './errors';
 import userRepository from '@/repositories/user-repository';
-import { forbiddenOperationError, invalidDataError } from '@/errors';
+import { forbiddenOperationError } from '@/errors';
 import universityRepository from '@/repositories/university-repository';
 import expertiseRepository from '@/repositories/expertise-repository';
 

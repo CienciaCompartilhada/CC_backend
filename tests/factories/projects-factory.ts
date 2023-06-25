@@ -1,9 +1,6 @@
 import { expertise, projects, university, users } from '@prisma/client';
 import faker from '@faker-js/faker';
-import { createTeacher } from './users-factory';
 import { prisma } from '@/config';
-import { createUniversity } from './university-factory';
-import { createExpertise } from './expertise-factory';
 
 export async function createProject(teacher: users, university: university, expertise: expertise): Promise<projects> {
   const startDate = new Date(faker.datatype.datetime());

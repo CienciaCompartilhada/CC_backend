@@ -176,7 +176,6 @@ describe('GET /users/teachers', () => {
   });
 });
 
-
 describe('GET /users/students', () => {
   it('should respond with status 401 if no token is given', async () => {
     const response = await server.get('/users/students');

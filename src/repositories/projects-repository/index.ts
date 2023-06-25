@@ -1,4 +1,4 @@
-import { Prisma, projects } from '@prisma/client';
+import { projects } from '@prisma/client';
 import { prisma } from '@/config';
 
 async function getProjects(userId: number): Promise<projects[]> {
