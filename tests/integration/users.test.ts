@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import * as jwt from 'jsonwebtoken';
 import httpStatus from 'http-status';
 import supertest from 'supertest';
-import { connectUserExpertise, connectUserUniversity, createTeacher, createUser } from '../factories';
+import { connectUserExpertise, connectUserUniversity, createStudent, createTeacher, createUser } from '../factories';
 import { cleanDb, generateValidToken } from '../helpers';
 import { createUniversity } from '../factories/university-factory';
 import { createExpertise } from '../factories/expertise-factory';
@@ -168,6 +168,95 @@ describe('GET /users/teachers', () => {
         },
         {
           name: teacher2.name,
+          university: university.name,
+          expertises: [],
+        },
+      ]);
+    });
+  });
+});
+
+
+describe('GET /users/students', () => {
+  it('should respond with status 401 if no token is given', async () => {
+    const response = await server.get('/users/students');
+
+    expect(response.status).toBe(httpStatus.UNAUTHORIZED);
+  });
+
+  it('should respond with status 401 if given token is not valid', async () => {
+    const token = faker.lorem.word();
+
+    const response = await server.get('/users/students').set('Authorization', `Bearer ${token}`);
+
+    expect(response.status).toBe(httpStatus.UNAUTHORIZED);
+  });
+
+  it('should respond with status 401 if there is no session for given token', async () => {
+    const user = await createUser();
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+
+    const response = await server.get('/users/students').set('Authorization', `Bearer ${token}`);
+
+    expect(response.status).toBe(httpStatus.UNAUTHORIZED);
+  });
+  describe('when token is valid', () => {
+    it('should respond with status 200 and list of teachers ordered by match algorythm', async () => {
+      await cleanDb();
+
+      const user = await createUser();
+
+      const university = await createUniversity();
+
+      const expertise1 = await createExpertise();
+      const expertise2 = await createExpertise();
+
+      const student1 = await createStudent();
+      const student2 = await createStudent();
+      const student3 = await createStudent();
+
+      await connectUserUniversity(user, university);
+      await connectUserUniversity(student1, university);
+      await connectUserUniversity(student2, university);
+      await connectUserUniversity(student3, university);
+
+      await connectUserExpertise(user, expertise1);
+      await connectUserExpertise(user, expertise2);
+      await connectUserExpertise(student1, expertise1);
+      await connectUserExpertise(student1, expertise2);
+      await connectUserExpertise(student3, expertise1);
+
+      const token = await generateValidToken(user);
+      const response = await server.get('/users/students').set('Authorization', `Bearer ${token}`);
+
+      expect(response.status).toBe(httpStatus.OK);
+      expect(response.body).toEqual([
+        {
+          name: student1.name,
+          university: university.name,
+          expertises: [
+            {
+              id: expertise1.id,
+              name: expertise1.name,
+            },
+            {
+              id: expertise2.id,
+              name: expertise2.name,
+            },
+          ],
+        },
+        {
+          name: student3.name,
+          university: university.name,
+          expertises: [
+            {
+              id: expertise1.id,
+              name: expertise1.name,
+            },
+          ],
+        },
+        {
+          name: student2.name,
           university: university.name,
           expertises: [],
         },
