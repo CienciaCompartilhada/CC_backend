@@ -16,3 +16,27 @@ export async function createUser(params: Partial<users> = {}): Promise<users> {
     },
   });
 }
+
+export async function createTeacher(): Promise<users> {
+  const password = await bcrypt.hash(faker.internet.password(), 10);
+  return prisma.users.create({
+    data: {
+      name: faker.name.firstName(),
+      email: faker.internet.email(),
+      password: password,
+      is_teacher: true,
+    },
+  });
+}
+
+export async function createStudent(): Promise<users> {
+  const password = await bcrypt.hash(faker.internet.password(), 10);
+  return prisma.users.create({
+    data: {
+      name: faker.name.firstName(),
+      email: faker.internet.email(),
+      password: password,
+      is_teacher: false,
+    },
+  });
+}
