@@ -3,8 +3,9 @@ import projectRepository from '@/repositories/projects-repository';
 import universityRepository from '@/repositories/university-repository';
 import userRepository from '@/repositories/user-repository';
 
-export async function getProjects() {
-  const projects: any = await projectRepository.getProjects();
+export async function getProjects(userId: number) {
+  const projects = await projectRepository.getProjects(userId);
+  console.log(projects);
   const result = [];
   for (let i = 0; i < projects.length; i++) {
     const professor = await userRepository.findById(projects[i].professor_id);
