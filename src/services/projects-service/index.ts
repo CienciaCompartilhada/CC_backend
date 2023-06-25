@@ -5,7 +5,6 @@ import userRepository from '@/repositories/user-repository';
 
 export async function getProjects(userId: number) {
   const projects = await projectRepository.getProjects(userId);
-  console.log(projects);
   const result = [];
   for (let i = 0; i < projects.length; i++) {
     const professor = await userRepository.findById(projects[i].professor_id);
