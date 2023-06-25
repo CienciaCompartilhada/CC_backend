@@ -76,7 +76,7 @@ describe('GET /projects', () => {
         },
       ];
       expect(response.status).toBe(httpStatus.OK);
-      expect(response.body).toEqual(expect.arrayContaining(expectedResponse));
+      expect(response.body).toEqual(expectedResponse);
     });
   });
 });
