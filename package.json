@@ -1,12 +1,13 @@
 {
-  "name": "drint.t-back",
+  "name": "ciencia_compartilhada_api",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "ttsc -p tsconfig.build.json",
-    "start": "node dist/server.js",
+    "start": "npm run prisma:migrate:deploy && node dist/server.js",
+    "prisma:migrate:deploy": "prisma migrate deploy",
     "migration:run": "prisma migrate deploy",
     "migration:generate": "npm run dev:load-envs prisma migrate dev", 
     "lint": "eslint .",
@@ -25,7 +26,7 @@
     "dev": "cross-env NODE_ENV=development nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register ./src/server.ts' -e ts"
   },
   "keywords": [
-    "driven.t",
+    "ciencia_compartilhada",
     "back-end",
     "typescript",
     "driven",
@@ -33,8 +34,8 @@
     "express",
     "nodejs"
   ],
-  "author": "Alexandre Nunes",
-  "license": "ISC",
+  "author": "Alexandre de Freitas Souza",
+  "license": "Mozilla Public License Version 2.0",
   "prisma": {
     "seed": "npm run dev:load-envs -- ts-node prisma/seed.ts"
   },
