@@ -1,4 +1,4 @@
-# CC_backend
+# Ciência Compartilhada backend
 This is the backend API of our web Application Ciência Compartilhada
 
 ## Introduction
