@@ -1,27 +1,46 @@
 import { PrismaClient } from "@prisma/client";
-import dayjs from "dayjs";
+
 const prisma = new PrismaClient();
 
-async function main() {
-  let event = await prisma.event.findFirst();
-  if (!event) {
-    event = await prisma.event.create({
-      data: {
-        title: "Driven.t",
-        logoImageUrl: "https://files.driveneducation.com.br/images/logo-rounded.png",
-        backgroundImageUrl: "linear-gradient(to right, #FA4098, #FFD77F)",
-        startsAt: dayjs().toDate(),
-        endsAt: dayjs().add(21, "days").toDate(),
-      },
-    });
-  }
+async function seed() {
+  const universities = [
+    "UNB - Universidade de Brasília",
+    "UFMG - Universidade Federal de Minas Gerais",
+    "UFBA - Universidade Federal da Bahia",
+    "UniCeub - Centro Universitário de Brasília",
+  ];
 
-  console.log({ event });
+  const expertise = [
+    "Engenharia Civil",
+    "Medicina",
+    "Direito",
+    "Administração",
+  ];
+
+  const universityPromises = universities.map((name) =>
+    prisma.university.create({
+      data: {
+        name,
+      },
+    })
+  );
+
+  const expertisePromises = expertise.map((name) =>
+    prisma.expertise.create({
+      data: {
+        name,
+      },
+    })
+  );
+
+  await Promise.all([...universityPromises, ...expertisePromises]);
+
+  console.log("Dados de seed inseridos com sucesso!");
 }
 
-main()
-  .catch((e) => {
-    console.error(e);
+seed()
+  .catch((error) => {
+    console.error(error);
     process.exit(1);
   })
   .finally(async () => {
