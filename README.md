@@ -1,5 +1,14 @@
-# Ciência compartilhada backend
-This is the backend API of our web Application Ciência Compartilhada
+<div align="center">
+    <img src="https://github.com/CienciaCompartilhada/CC_backend/assets/83618808/c898e794-7e81-4c10-a89c-8671c1c99014"/>
+</div>
+
+
+<div align="center">
+  <h1>Ciência compartilhada backend</h1>
+</div>
+<div align="center">
+  <p>This is the backend API of our web Application Ciência Compartilhada</p>
+</div>
 
 ## Introduction
 The purpose of this application is to connect teachers and students in the field of scientific research. 
