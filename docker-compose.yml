@@ -19,6 +19,7 @@ services:
       - db # só sobe quando o postgres tiver no ar
     env_file:
       - .env #configurar DATABASE_URL
+    command: sh -c "npm run prisma:migrate:deploy && npm run production:seed && node dist/server.js"
 
 volumes:
   pg: # volume para os postgres
